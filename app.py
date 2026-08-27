@@ -47,7 +47,8 @@ def new_students():
 
         return redirect(url_for("list_students"))
 
-    return render_template("new_student.html")
+    planos = Plan.query.all()
+    return render_template("new_student.html", planos=planos)
 
 @app.route("/alunos/editar/<int:id>", methods=["GET", "POST"])
 def edit_student(id):
@@ -57,11 +58,13 @@ def edit_student(id):
         aluno.nome = request.form["nome"]
         aluno.email = request.form["email"]
         aluno.telefone = request.form["telefone"]
+        aluno.plano_id = request.form["plano_id"] or None
 
         db.session.commit()
         return redirect(url_for("list_students"))
 
-    return render_template("edit_student.html", aluno=aluno)
+    planos = Plan.query.all()
+    return render_template("edit_student.html", aluno=aluno, planos=planos)
 
 @app.route("/alunos/excluir/<int:id>", methods=["POST"])
 def delete_student(id):

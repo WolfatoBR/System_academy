@@ -15,12 +15,15 @@
                     <th>Nome</th>
                     <th>E-mail</th>
                     <th>Telefone</th>
+                    <th>Plano</th>
+                    <th>Ações</th>
                 </tr>
                 {% for aluno in alunos %}
                 <tr>
                     <td>{{ aluno.nome }}</td>
                     <td>{{ aluno.email }}</td>
                     <td>{{ aluno.telefone }}</td>
+                    <td>{{ aluno.plano.nome if aluno.plano else "Sem plano" }}</td>
                     <td>
                         <a href="{{ url_for('edit_student', id=aluno.id) }}">Editar</a>
 
