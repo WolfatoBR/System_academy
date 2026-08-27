@@ -35,6 +35,27 @@ def new_students():
 
     return render_template("new_student.html")
 
+@app.route("/alunos/editar/<int:id>", methods=["GET", "POST"])
+def edit_student(id):
+    aluno = Student.query.get_or_404(id)
+
+    if request.method == "POST":
+        aluno.nome = request.form["nome"]
+        aluno.email = request.form["email"]
+        aluno.telefone = request.form["telefone"]
+
+        db.session.commit()
+        return redirect(url_for("list_students"))
+
+    return render_template("edit_student.html", aluno=aluno)
+
+@app.route("/alunos/excluir/<int:id>", methods=["POST"])
+def delete_student(id):
+    aluno = Student.query.get_or_404(id)
+    db.session.delete(aluno)
+    db.session.commit()
+    return redirect(url_for("list_students"))
+
 @app.route("/alunos")
 def list_students():
     alunos = Student.query.all()
