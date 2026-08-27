@@ -74,5 +74,26 @@ def list_students():
     alunos = Student.query.all()
     return render_template("list_students.html", alunos=alunos)
 
+@app.route("/planos/novo", methods=["GET", "POST"])
+def new_plan():
+    if request.method == "POST":
+        nome = request.form["nome"]
+        preco = request.form["preco"]
+        duracao_dias = request.form["duracao_dias"]
+        descricao = request.form["descricao"]
+
+        plano = Plan(nome=nome, preco=preco, duracao_dias=duracao_dias, descricao=descricao)
+        db.session.add(plano)
+        db.session.commit()
+
+        return redirect(url_for("list_plans"))
+
+    return render_template("new_plan.html")
+
+@app.route("/planos")
+def list_plans():
+    planos = Plan.query.all()
+    return render_template("list_plans.html", planos=planos)
+
 if __name__ == "__main__":
     app.run(debug=True)
