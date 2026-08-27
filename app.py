@@ -39,8 +39,9 @@ def new_students():
         nome = request.form["nome"]
         email = request.form["email"]
         telefone = request.form["telefone"]
+        plano_id = request.form["plano_id"] or None
 
-        aluno = Student(nome=nome, email=email, telefone=telefone)
+        aluno = Student(nome=nome, email=email, telefone=telefone, plano_id=plano_id)
         db.session.add(aluno)
         db.session.commit()
 
