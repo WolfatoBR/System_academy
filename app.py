@@ -6,12 +6,25 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///academia.db"
 db = SQLAlchemy(app)
 
+class Plan(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100), nullable=False)
+    preco = db.Column(db.Float, nullable=False)
+    duracao_dias = db.Column(db.Integer, nullable=False)
+    descricao = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f"<Plano {self.nome}"
+
 class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     telefone = db.Column(db.String(20))
     data_cadastro = db.Column(db.DateTime, server_default=db.func.now())
+
+    plano_id = db.Column(db.Integer, db.ForeignKey("plan.id"), nullable=True)
+    plano = db.relationship("Plan", backref="alunos")
 
     def __repr__(self):
         return f"<Aluno {self.nome}"
