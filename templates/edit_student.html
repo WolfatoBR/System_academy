@@ -20,6 +20,16 @@
             <label for="telefone">Telefone:</label>
             <input type="text" id="telefone" name="telefone" value="{{ aluno.telefone }}">
 
+            <label for="plano_id">Plano:</label>
+            <select name="plano_id" id="plano_id">
+                <option value="">Nenhum Plano</option>
+                {% for plano in planos %}
+                    <option value="{{ plano.id }}" {% if aluno.plano_id == plano.id %}selected{% endif %}>
+                        {{ plano.nome }} - R$ {{ "%.2f"|format(plano.preco) }}
+                    </option>
+                {% endfor %}
+            </select>
+
             <button type="submit">Salvar alterações</button>
         </form>
 
