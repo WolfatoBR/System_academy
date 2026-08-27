@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Planos Cadastrados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Planos Cadastrados</h1>
+
+        {% if planos %}
+            <table>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Duração</th>
+                    <th>Descrição</th>
+                </tr>
+                {% for plano in planos %}
+                <tr>
+                    <td>{{ plano.nome }}</td>
+                    <td>R$ {{ "%.2f"|format(plano.preco) }}</td>
+                    <td>{{ plano.duracao_dias }} dias</td>
+                    <td>{{ plano.descricao }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>Nenhum plano cadastrado ainda.</p>
+        {% endif %}
+
+        <a href="{{ url_for('new_plan') }}">Cadastrar novo plano</a>
+    </div>
+</body>
+</html>
