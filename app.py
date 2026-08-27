@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///academia.db"
 db = SQLAlchemy(app)
 
-class Studant(db.Model):
+class Student(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -19,6 +19,26 @@ class Studant(db.Model):
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/alunos/novo", methods=["GET", "POST"])
+def new_students():
+    if request.method == "POST":
+        nome = request.form["nome"]
+        email = request.form["email"]
+        telefone = request.form["telefone"]
+
+        aluno = Student(nome=nome, email=email, telefone=telefone)
+        db.session.add(aluno)
+        db.session.commit()
+
+        return redirect(url_for("list_students"))
+
+    return render_template("new_student.html")
+
+@app.route("/alunos")
+def list_students():
+    alunos = Student.query.all()
+    return render_template("list_students.html", alunos=alunos)
 
 if __name__ == "__main__":
     app.run(debug=True)
