@@ -16,6 +16,7 @@
                     <th>Preço</th>
                     <th>Duração</th>
                     <th>Descrição</th>
+                    <th>Ações</th>
                 </tr>
                 {% for plano in planos %}
                 <tr>
@@ -23,6 +24,11 @@
                     <td>R$ {{ "%.2f"|format(plano.preco) }}</td>
                     <td>{{ plano.duracao_dias }} dias</td>
                     <td>{{ plano.descricao }}</td>
+                    <td>    
+                        <form action="{{ url_for('delete_plan', id=plano.id) }}" method="post" style="display: inline;">
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir este plano?')">Excluir</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </table>
