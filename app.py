@@ -99,5 +99,12 @@ def list_plans():
     planos = Plan.query.all()
     return render_template("list_plans.html", planos=planos)
 
+@app.route("/planos/excluir/<int:id>", methods=["POST"])
+def delete_plan(id):
+    plano = Plan.query.get_or_404(id)
+    db.session.delete(plano)
+    db.session.commit()
+    return redirect(url_for("list_plans"))
+
 if __name__ == "__main__":
     app.run(debug=True)
